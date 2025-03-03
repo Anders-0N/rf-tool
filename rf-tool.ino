@@ -16,15 +16,15 @@
 #include "SSD1306AsciiWire.h"
 SSD1306AsciiWire oled;
 
-#define rxPin 2                         // Приемник
-#define rxOn 3                          // Включение приёмника
-#define txPin 48                         // Передатчик
+#define rxPin 38                        // Приемник (2 в исходной сборке)
+#define rxOn 37                         // Включение приёмника (3 в исходной сборке)
+#define txPin 48                        // Передатчик (4 в исходной сборке)
 #define ledCach1 8                      // Индикатор кеша 1
 #define ledCach2 6                      // Индикатор кеша 2
 #define ledJammer 7                     // Индикатор глушилки
-#define btsendPin1 A1                   // кнопка 1
-#define btsendPin2 A2                   // кнопка 2
-#define bip A0                          // Вибро
+#define btsendPin1 21                   // кнопка 1
+#define btsendPin2 22                   // кнопка 2
+#define bip 17                          // Вибро
 #define pulseAN 412                     // длительность импульса AN-Motors
 #define maxDelta 200                    // максимальное отклонение от длительности при приеме
 
@@ -608,26 +608,26 @@ void bipLong(boolean led) {
   }
 }
 
-long readVcc() {
-#if defined(__AVR_ATmega32U4__)
-  ADMUX = _BV(REFS0) | _BV(MUX4) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1);
-#else
-  ADMUX = _BV(REFS0) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1);
-#endif
-  delay(2); // Wait for Vref to settle
-  ADCSRA |= _BV(ADSC); // Start conversion
-  while (bit_is_set(ADCSRA, ADSC)); // measuring
-  uint8_t low  = ADCL; // must read ADCL first - it then locks ADCH
-  uint8_t high = ADCH; // unlocks both
-  long result = (high << 8) | low;
-  result = (1.098 * 1023 * 1000 / result) - 3150;   // 1.098 - калибровочный коэффициент для более точной индикации заряда аккумулятора
-  if (result > 999 || result < 1) {
-    if (result > 999) {
-      return 100;
-    } else {
-      return 0;
-    }
-  } else {
-    return result * 0.1;
-  }
-}
+// long readVcc() {
+// #if defined(__AVR_ATmega32U4__)
+//   ADMUX = _BV(REFS0) | _BV(MUX4) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1);
+// #else
+//   ADMUX = _BV(REFS0) | _BV(MUX3) | _BV(MUX2) | _BV(MUX1);
+// #endif
+//   delay(2); // Wait for Vref to settle
+//   ADCSRA |= _BV(ADSC); // Start conversion
+//   while (bit_is_set(ADCSRA, ADSC)); // measuring
+//   uint8_t low  = ADCL; // must read ADCL first - it then locks ADCH
+//   uint8_t high = ADCH; // unlocks both
+//   long result = (high << 8) | low;
+//   result = (1.098 * 1023 * 1000 / result) - 3150;   // 1.098 - калибровочный коэффициент для более точной индикации заряда аккумулятора
+//   if (result > 999 || result < 1) {
+//     if (result > 999) {
+//       return 100;
+//     } else {
+//       return 0;
+//     }
+//   } else {
+//     return result * 0.1;
+//   }
+// }
