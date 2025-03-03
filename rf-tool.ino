@@ -18,7 +18,7 @@ SSD1306AsciiWire oled;
 
 #define rxPin 2                         // Приемник
 #define rxOn 3                          // Включение приёмника
-#define txPin 4                         // Передатчик
+#define txPin 48                         // Передатчик
 #define ledCach1 8                      // Индикатор кеша 1
 #define ledCach2 6                      // Индикатор кеша 2
 #define ledJammer 7                     // Индикатор глушилки
